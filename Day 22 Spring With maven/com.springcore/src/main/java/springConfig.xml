@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<context:annotation-config></context:annotation-config>
+
+<!-- <bean class="SpringCoreAutowireAtc.com.springcore.Employee" id="sleeping" >   autowire="byName" Employee sleeping=new Employee(); 
+
+<property name="empid" value="1"> </property>
+<property name="empname" value="ramji"> </property>
+<property name="empsal" value="1009990"> </property>
+<property name="Address" ref="add"> </property>
+
+</bean> @Bean
+
+<bean class="SpringCoreAutowireAtc.com.springcore.Address" id="uuuu">    Address add=new Address(); 
+
+<property name="honum" value="4512"> </property>
+<property name="colony" value="mhd colony"> </property>
+<property name="dstrct" value="Udaipur"> </property>
+<property name="state" value="Raj"> </property>
+
+</bean>
+ -->
+
+
+</beans>
