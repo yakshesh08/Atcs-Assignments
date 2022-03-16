@@ -1,0 +1,579 @@
+   
+**************************************************************Simple Application Context Spring Program*****************************************************************************
+
+Employee.java
+=============
+package com.ia.springcore;
+
+public class Employee {  //bean class
+      int empid;
+      String empname;
+	public int getEmpid() {
+		return empid;
+	}
+	public void setEmpid(int empid) {
+		this.empid = empid;
+	}
+	public String getEmpname() {
+		return empname;
+	}
+	public void setEmpname(String empname) {
+		this.empname = empname;
+	}
+	
+	public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public Employee(int empid, String empname) {
+		super();
+		this.empid = empid;
+		this.empname = empname;
+	}
+	@Override
+	public String toString() {
+		return "Employee [empid=" + empid + ", empname=" + empname + "]";
+	}
+       
+}
+
+Test.java
+==========
+package com.ia.springcore;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+ public static void main(String[] args) {
+	 
+	
+	ApplicationContext factory = new ClassPathXmlApplicationContext("SpringConfiguration.xml");
+	
+	Employee emp =  (Employee) factory.getBean("employee");
+	System.out.println(emp);
+	
+}
+}
+
+SpringConfiguration.xml
+=========================
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<context:annotation-config></context:annotation-config>
+
+<bean class="com.ia.springcore.Employee" id="employee">    
+
+<property name="empid" value="256"> </property>
+<property name="empname" value="Abhay"> </property>
+
+</bean>
+
+</beans>
+
+
+Output
+======
+Employee [empid=256, empname=Abhay]
+
+*****************************************************************Application Context Spring (byType annotation)*****************************************************************
+
+Employee.java
+==============
+package com.ia.springApplicationContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Employee {  
+      int empid;
+      String empname;
+      
+      @Autowired                //byType
+      Address address;
+
+	public int getEmpid() {
+		return empid;
+	}
+
+	public void setEmpid(int empid) {
+		this.empid = empid;
+	}
+
+	public String getEmpname() {
+		return empname;
+	}
+
+	public void setEmpname(String empname) {
+		this.empname = empname;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+      
+      public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Employee(int empid, String empname, Address address) {
+		super();
+		this.empid = empid;
+		this.empname = empname;
+		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [empid=" + empid + ", empname=" + empname + ", address=" + address + "]";
+	}
+      
+}
+
+Address.java
+==============
+package com.ia.springApplicationContext;
+
+public class Address {
+   int emphouseno;
+   String empcolony;
+   String empcity;
+public int getEmphouseno() {
+	return emphouseno;
+}
+public void setEmphouseno(int emphouseno) {
+	this.emphouseno = emphouseno;
+}
+public String getEmpcolony() {
+	return empcolony;
+}
+public void setEmpcolony(String empcolony) {
+	this.empcolony = empcolony;
+}
+public String getEmpcity() {
+	return empcity;
+}
+public void setEmpcity(String empcity) {
+	this.empcity = empcity;
+}
+   
+   public Address() {
+	// TODO Auto-generated constructor stub
+}
+public Address(int emphouseno, String empcolony, String empcity) {
+	super();
+	this.emphouseno = emphouseno;
+	this.empcolony = empcolony;
+	this.empcity = empcity;
+}
+@Override
+public String toString() {
+	return "Address [emphouseno=" + emphouseno + ", empcolony=" + empcolony + ", empcity=" + empcity + "]";
+}
+   
+     
+   
+}
+
+SpringConfiguration.xml
+=========================
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<context:annotation-config></context:annotation-config>
+
+<bean class="com.ia.springApplicationContext.Employee" id="employee">    
+
+<property name="empid" value="987"> </property>
+<property name="empname" value="Yakshesh"> </property>
+
+</bean>
+
+<bean class="com.ia.springApplicationContext.Address" id="add">    
+
+<property name="emphouseno" value="983"> </property>
+<property name="empcolony" value="Nand Puri"> </property>
+<property name="empcity" value="Jaipur"> </property>
+
+</bean>
+
+
+</beans>
+
+Test.java
+===========
+package com.ia.springApplicationContext;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+ public static void main(String[] args) {
+	 
+	
+	ApplicationContext factory = new ClassPathXmlApplicationContext("SpringConfiguration.xml");
+	
+	Employee emp =  (Employee) factory.getBean("employee");
+	System.out.println(emp);
+	
+}
+}
+
+Output
+=======
+Employee [empid=1111, empname=Sonu, address=Address [emphouseno=983, empcolony=Nand Puri, empcity=Jaipur]]
+
+*******************************************************************Application Context Spring (byName annotation)*****************************************************************
+
+Employee.java
+==============
+package com.ia.springApplicationContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Employee {  
+      int empid;
+      String empname;
+      
+      
+      Address address;
+
+	public int getEmpid() {
+		return empid;
+	}
+
+	public void setEmpid(int empid) {
+		this.empid = empid;
+	}
+
+	public String getEmpname() {
+		return empname;
+	}
+
+	public void setEmpname(String empname) {
+		this.empname = empname;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+	@Autowired                                                           //byName
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+      
+      public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Employee(int empid, String empname, Address address) {
+		super();
+		this.empid = empid;
+		this.empname = empname;
+		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [empid=" + empid + ", empname=" + empname + ", address=" + address + "]";
+	}
+      
+}
+
+Address.java
+==============
+package com.ia.springApplicationContext;
+
+public class Address {
+   int emphouseno;
+   String empcolony;
+   String empcity;
+public int getEmphouseno() {
+	return emphouseno;
+}
+public void setEmphouseno(int emphouseno) {
+	this.emphouseno = emphouseno;
+}
+public String getEmpcolony() {
+	return empcolony;
+}
+public void setEmpcolony(String empcolony) {
+	this.empcolony = empcolony;
+}
+public String getEmpcity() {
+	return empcity;
+}
+public void setEmpcity(String empcity) {
+	this.empcity = empcity;
+}
+   
+   public Address() {
+	// TODO Auto-generated constructor stub
+}
+public Address(int emphouseno, String empcolony, String empcity) {
+	super();
+	this.emphouseno = emphouseno;
+	this.empcolony = empcolony;
+	this.empcity = empcity;
+}
+@Override
+public String toString() {
+	return "Address [emphouseno=" + emphouseno + ", empcolony=" + empcolony + ", empcity=" + empcity + "]";
+}
+   
+     
+   
+}
+
+SpringConfiguration.xml
+=========================
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<context:annotation-config></context:annotation-config>
+
+<bean class="com.ia.springApplicationContext.Employee" id="employee">    
+
+<property name="empid" value="1111"> </property>
+<property name="empname" value="Sonu"> </property>
+
+</bean>
+
+<bean class="com.ia.springApplicationContext.Address" id="add">    
+
+<property name="emphouseno" value="999"> </property>
+<property name="empcolony" value="Devi Nagar"> </property>
+<property name="empcity" value="Jaipur"> </property>
+
+</bean>
+
+
+</beans>
+
+Test.java
+===========
+package com.ia.springApplicationContext;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+ public static void main(String[] args) {
+	 
+	
+	ApplicationContext factory = new ClassPathXmlApplicationContext("SpringConfiguration.xml");
+	
+	Employee emp =  (Employee) factory.getBean("employee");
+	System.out.println(emp);
+	
+}
+}
+
+Output
+=======
+Employee [empid=1111, empname=Sonu, address=Address [emphouseno=999, empcolony=Devi Nagar, empcity=Jaipur]]
+
+************************************************************88Application Context Spring (constructor annotation)*****************************************************************
+
+Employee.java
+===============
+package com.ia.springApplicationContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Employee {  
+      int empid;
+      String empname;
+      
+      
+      Address address;
+
+	public int getEmpid() {
+		return empid;
+	}
+
+	public void setEmpid(int empid) {
+		this.empid = empid;
+	}
+
+	public String getEmpname() {
+		return empname;
+	}
+
+	public void setEmpname(String empname) {
+		this.empname = empname;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+	
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+      
+      public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+      @Autowired                //by using constructor
+	public Employee(int empid, String empname, Address address) {
+		super();
+		this.empid = empid;
+		this.empname = empname;
+		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [empid=" + empid + ", empname=" + empname + ", address=" + address + "]";
+	}
+      
+}
+
+Address.java
+=============
+package com.ia.springApplicationContext;
+
+public class Address {
+   int emphouseno;
+   String empcolony;
+   String empcity;
+public int getEmphouseno() {
+	return emphouseno;
+}
+public void setEmphouseno(int emphouseno) {
+	this.emphouseno = emphouseno;
+}
+public String getEmpcolony() {
+	return empcolony;
+}
+public void setEmpcolony(String empcolony) {
+	this.empcolony = empcolony;
+}
+public String getEmpcity() {
+	return empcity;
+}
+public void setEmpcity(String empcity) {
+	this.empcity = empcity;
+}
+   
+   public Address() {
+	// TODO Auto-generated constructor stub
+}
+public Address(int emphouseno, String empcolony, String empcity) {
+	super();
+	this.emphouseno = emphouseno;
+	this.empcolony = empcolony;
+	this.empcity = empcity;
+}
+@Override
+public String toString() {
+	return "Address [emphouseno=" + emphouseno + ", empcolony=" + empcolony + ", empcity=" + empcity + "]";
+}
+   
+     
+   
+}
+
+SpringConfiguration.xml
+=========================
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<context:annotation-config></context:annotation-config>
+
+<bean class="com.ia.springApplicationContext.Employee" id="employee">    
+
+<constructor-arg name="empid" value="1111"> </constructor-arg>
+<constructor-arg name="empname" value="Sonu"> </constructor-arg>
+
+</bean>
+
+<bean class="com.ia.springApplicationContext.Address" id="add">    
+
+<constructor-arg name="emphouseno" value="234"> </constructor-arg>
+<constructor-arg name="empcolony" value="Devi Nagar"> </constructor-arg>
+<constructor-arg name="empcity" value="Jaipur"> </constructor-arg>
+
+</bean>
+
+
+</beans>
+
+Test.java
+===========
+package com.ia.springApplicationContext;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+ public static void main(String[] args) {
+	 
+	
+	ApplicationContext factory = new ClassPathXmlApplicationContext("SpringConfiguration.xml");
+	
+	Employee emp =  (Employee) factory.getBean("employee");
+	System.out.println(emp);
+	
+}
+}
+
+Output
+=======
+Employee [empid=1111, empname=Sonu, address=Address [emphouseno=234, empcolony=Devi Nagar, empcity=Jaipur]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
