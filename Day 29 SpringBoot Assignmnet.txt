@@ -1,0 +1,342 @@
+                                                                          SpringBootCustomerDemo         
+                                                                         =======================
+
+**********************************************************************************com.io********************************************************************************
+
+
+SpringBootstudentDemoApplication.java
+========================================
+package com.ia;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringBootstudentDemoApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootstudentDemoApplication.class, args);
+	}
+
+}
+
+********************************************************************************com.io.entity***************************************************************************
+
+Student.java
+==============
+package com.ia.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="student")
+public class Student {
+	
+	@Id
+	@Column(name="sid",length=10)
+   private int sId;
+	@Column(name="sname",length=10)
+   private String sName;
+	@Column(name="ssal",length=10)
+   private int sSal;
+	@Column(name="sadd",length=10)
+   private String sAdd;
+   
+    public int getsId() {
+	 return sId;
+   }
+public void setsId(int sId) {
+	this.sId = sId;
+}
+public String getsName() {
+	return sName;
+}
+public void setcName(String sName) {
+	this.sName = sName;
+}
+public int getcSal() {
+	return sSal;
+}
+public void setcSal(int sSal) {
+	this.sSal = sSal;
+}
+public String getsAdd() {
+	return sAdd;
+}
+public void setsAdd(String sAdd) {
+	this.sAdd = sAdd;
+}
+   
+    public Student() {
+		// TODO Auto-generated constructor stub
+	}
+	public Student(int sId, String sName, int sSal, String sAdd) {
+		super();
+		this.sId = sId;
+		this.sName = sName;
+		this.sSal = sSal;
+		this.sAdd = sAdd;
+	}
+	@Override
+	public String toString() {
+		return "Student [sId=" + sId + ", sName=" + sName + ", sSal=" + sSal + ", sAdd=" + sAdd + "]";
+	}
+    
+    
+   
+}
+
+
+*********************************************************************************com.io.service*************************************************************************
+
+StudentService.java
+=====================
+package com.ia.service;
+
+import java.util.List;
+
+import java.util.List;
+
+import com.ia.entity.Student;
+
+public interface StudentService {
+	
+       Student addStudent(Student student);
+       Customer updateStudent(Student student);
+       String deleteStudent(int sId);
+       Customer getStudent(int sId);
+       List <Student> getAllStudent();
+	
+	
+	
+}
+StudentServiceImpl.java
+==========================
+package com.ia.service;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ia.dao.CustomerDao;
+import com.ia.entity.Customer;
+
+@Service
+@Transactional
+public class StudentServiceImpl implements StudentService {
+	
+	@Autowired
+	StudentDao dao;
+
+	@Override
+	public Student addCustomer(Student student) {
+		return dao.addStudent(student);
+	}
+
+	@Override
+	public Student updateStudent(Student student) {
+		
+		return dao.updateStudent(student);
+	}
+
+	@Override
+	public String deleteStudent(int sId) {
+		
+		return dao.deleteCustomer(sId);
+	}
+
+	@Override
+	public Student getStudent(int sId) {
+		// TODO Auto-generated method stub
+		return dao.getStudent(sId);
+	}
+
+	@Override
+	public List <Student> getAllStudent() {
+		
+		return dao.getAllStudent();
+	}
+
+}
+
+
+***********************************************************************************com.io.dao***************************************************************************
+
+StudentDao.java
+=================
+package com.ia.dao;
+
+import java.util.List;
+
+import com.ia.entity.Student;
+
+public interface StudentDao {
+
+	Student addStudent(Student student);
+    Student updateStudent(Student student);
+    String deleteStudent(int sId);
+    Student getStudent(int sId);
+    List <Student> getAllStudent();
+	
+	
+}
+
+StudentDaoImpl.java
+=====================
+package com.ia.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Repository;
+
+import com.ia.entity.Student;
+
+@Repository
+public class StudentDaoImpl implements StudentDao {
+
+	@PersistenceContext
+	EntityManager entity;
+	
+	@Override
+	public Student addStudent(Student student) {
+		entity.persist(student);
+		return entity.find(Student.class, student.getcId());
+	}
+
+	@Override
+	public Student updateCustomer(Student student) {
+	
+		return entity.merge(student);
+	}
+
+	@Override
+	public String deleteStudent(int sId) {
+		Student s = entity.find(Student.class,sId);
+		if(s!=null) {
+			return "find student successfully";
+		}
+		else {
+			return "student not found";
+		}
+		
+	}
+
+	@Override
+	public Student getStudent(int sId) {
+		
+		return entity.find(Student.class,sId);
+	}
+
+	@Override
+	public List<Student> getAllStudent() {
+		TypedQuery<Student> result = entity.createQuery("select c from student c",Student.class);
+		return result.getResultList();
+	}
+
+}
+
+***************************************************************************application.properties***********************************************************************
+
+server.port=2323
+spring.datasource.url=jdbc:postgresql://localhost:5433/database1
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+**********************************************************************SpringBootstudentDemoApplicationTests.java*******************************************************
+
+package com.ia;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.ia.entity.Student;
+import com.ia.service.StudentService;
+
+
+@SpringBootTest
+class SpringBootstudentDemoApplicationTests {
+
+	@Autowired
+	StudentService service;
+	
+//	@Test
+//	void testAddStudent() {
+//		Student sust1 = new Student(123,"yakshesh",1234,"jaipur");
+//		Student s1=service.addStudent(sust1);
+//		assertEquals(sust1.getsName(),"yakshesh");
+//		
+//	}
+
+//	@Test
+//	void testupdateStudent() {
+//		Student sust1 = new Student(123,"yaksheshgupta",1234,"jaipur");
+//		Student s1=service.updateCustomer(sust1);
+//		assertEquals(sust1.getcName(),"yaksheshgupta");
+//		
+//	}
+	
+//	@Test
+//	void testGetAllStudents() {
+//		List <Student> students = service.getAllStudents();
+//		assertTrue(students.size()>0,"yaksheshgupta");
+//		
+//	}
+	
+	@Test
+	void testDeleteStudent() {
+		String stmr = service.deleteStudent(1234);
+		assertEquals(stmr,"student deleted");
+		
+	}
+}
+
+***************************************************************************************Output**************************************************************************
+
+postgres=# \c database1
+You are now connected to database "database1" as user "postgres".
+database1=# \dt
+             List of relations
+ Schema |     Name      | Type  |  Owner
+--------+---------------+-------+----------
+ public | student       | table | postgres
+(1 rows)
+
+
+database1=# select * from student;
+ sid | sadd | sname | ssal
+-----+------+-------+------
+(0 rows)
+
+
+database1=# select * from student;
+  sid |  sadd  | sname  | ssal
+ -----+--------+--------+------
+ 1234 | jaipur | yakshesh | 1234
+(1 row)
+
+
+database1=# select * from student;
+  sid |  sadd  |   sname       | ssal
+-----+--------+------------+------
+ 1234 | jaipur | yaksheshgupta | 1234
+(1 row)
