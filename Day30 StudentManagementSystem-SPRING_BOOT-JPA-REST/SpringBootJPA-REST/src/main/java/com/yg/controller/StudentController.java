@@ -38,7 +38,7 @@ public class StudentController {
 		return service.updateStudent(stu);
 	}
 	
-	@GetMapping("/getStudent/(sid)")    //http://localhost:6543/student/getStudent/sid
+	@GetMapping("/getStudent/{sid}")    //http://localhost:6543/student/getStudent/sid
 	public Student getStudent(@PathVariable("sid") int stuId) {
 				
 		return service.getStudent(stuId);
@@ -51,7 +51,7 @@ public class StudentController {
 	}
 	
 
-	@DeleteMapping("/deleteStudent/(sid)")    //http://localhost:6543/student/deleteStudent/sid
+	@DeleteMapping("/deleteStudent/{sid}")    //http://localhost:6543/student/deleteStudent/sid
 	public String deleteStudent(@PathVariable("sid") int stuId) {
 				
 		return service.deleteStudent(stuId);
